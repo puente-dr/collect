@@ -2,6 +2,157 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.5.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.2...v12.5.1) (2023-03-08)
+
+
+### New Features
+
+* HUGE REFACTOR of imports to consolidate for design system ([c8d9777](https://github.com/hopetambala/puente-reactnative-collect/commit/c8d9777e35aae23277ef90aab5803469965a1ea4))
+
+
+### Bug fixes
+
+* native-base number ([0e18812](https://github.com/hopetambala/puente-reactnative-collect/commit/0e188126d42018bff3b597754d3a76e4555f607d))
+* remove automatic login ([b8eb1ea](https://github.com/hopetambala/puente-reactnative-collect/commit/b8eb1ea728ab06beccec99573d2d4280e675efe5))
+
+## [12.5.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.2...v12.5.0) (2023-02-17)
+
+
+### New Features
+
+* HUGE REFACTOR of imports to consolidate for design system ([c8d9777](https://github.com/hopetambala/puente-reactnative-collect/commit/c8d9777e35aae23277ef90aab5803469965a1ea4))
+
+
+### Bug fixes
+
+* remove automatic login ([b8eb1ea](https://github.com/hopetambala/puente-reactnative-collect/commit/b8eb1ea728ab06beccec99573d2d4280e675efe5))
+
+### [12.4.3](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.2...v12.4.3) (2023-02-17)
+
+
+### New Features
+
+* HUGE REFACTOR of imports to consolidate for design system ([c8d9777](https://github.com/hopetambala/puente-reactnative-collect/commit/c8d9777e35aae23277ef90aab5803469965a1ea4))
+
+
+### Bug fixes
+
+* remove automatic login ([b8eb1ea](https://github.com/hopetambala/puente-reactnative-collect/commit/b8eb1ea728ab06beccec99573d2d4280e675efe5))
+
+### [12.4.2](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.1...v12.4.2) (2022-10-20)
+
+
+### New Features
+
+* add ability to delete user (by connecting to puente-manage ([c52d36d](https://github.com/hopetambala/puente-reactnative-collect/commit/c52d36d82b08ba97733d8ea72cbc6c3977db5d38))
+
+### [12.4.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.0...v12.4.1) (2022-10-14)
+
+
+### Bug fixes
+
+* supplementary forms online ([e3a44d7](https://github.com/hopetambala/puente-reactnative-collect/commit/e3a44d7970ba010cd6acca68d5f1d6a41281a2c7))
+
+## [12.4.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.3.1...v12.4.0) (2022-10-10)
+
+
+### Code Refactors
+
+* household offline ([a1819c1](https://github.com/hopetambala/puente-reactnative-collect/commit/a1819c1377d409391990815ca0f793f476e9d38f))
+
+
+### New Features
+
+* add email and text signup ([f409d67](https://github.com/hopetambala/puente-reactnative-collect/commit/f409d675ad85ca65f727ae3be6dfe5682666851d))
+* add integration tests for survey and supplementary forms! ([ed57ad9](https://github.com/hopetambala/puente-reactnative-collect/commit/ed57ad9f99d6f538032ef5dce4f97888682075ed))
+
+
+### Bug fixes
+
+* add assets! ([b620ef0](https://github.com/hopetambala/puente-reactnative-collect/commit/b620ef068dd340048afe3a20825fbde754b29f6c))
+* add Integration tests to do live database testing ([696dfeb](https://github.com/hopetambala/puente-reactnative-collect/commit/696dfeb95cdaca04d15d7ccac34d5b0ea8a17bb3))
+* app version in data ([46afbc7](https://github.com/hopetambala/puente-reactnative-collect/commit/46afbc71218bcb54ad0f019b267441d8446b2f7b))
+* deprecate posthouseholdRelation ([bd9cf54](https://github.com/hopetambala/puente-reactnative-collect/commit/bd9cf5448a9dfd53d748f1c703471ddd239bdb72))
+* home map ([69d210c](https://github.com/hopetambala/puente-reactnative-collect/commit/69d210c8e0f121a459814f999af7c3ffea170a23))
+* maps! ([3944120](https://github.com/hopetambala/puente-reactnative-collect/commit/3944120354744718e4034c4f62dc383a6daf543f))
+* maps! ([05ebbed](https://github.com/hopetambala/puente-reactnative-collect/commit/05ebbed67d9743f856ed04b353ef6198ca832188))
+* patch-react-native! ([c0796eb](https://github.com/hopetambala/puente-reactnative-collect/commit/c0796eb8a50992fd07f644129c59dfe5e5bca6cb))
+* patches for parse! ([355482e](https://github.com/hopetambala/puente-reactnative-collect/commit/355482ebb679a7c47e7e5cf6301ca4a0bb2d37cc))
+* set location on asset map upon load ([646e4b2](https://github.com/hopetambala/puente-reactnative-collect/commit/646e4b204b8357b7c84c8fced013cdffcf47a857))
+
+### [12.3.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.3.0...v12.3.1) (2022-04-03)
+
+
+### Bug fixes
+
+* Ability to login and logout offline ([ffd54d4](https://github.com/hopetambala/puente-reactnative-collect/commit/ffd54d40bf0cad8813fd0359bf244cc0524ff93a))
+
+## [12.3.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.2.1...v12.3.0) (2022-04-03)
+
+
+### Bug fixes
+
+* Issue where the app wasn't able to be navigated due to blocked resources ([59ac648](https://github.com/hopetambala/puente-reactnative-collect/commit/59ac6489b6c4488e9b2fd9b6018049aa59df6719))
+
+
+### New Features
+
+* Add ability to populate the resident's cache from the header ([1c70680](https://github.com/hopetambala/puente-reactnative-collect/commit/1c70680ce6c06fc830381d72bc985fbd65cceaf9))
+
+### [12.2.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.2.0...v12.2.1) (2022-03-30)
+
+
+### Bug fixes
+
+* custom forms not loading in form gallery ([68f1991](https://github.com/hopetambala/puente-reactnative-collect/commit/68f19912d3b0740a1b0ee7bcac64f29930fdbd1c))
+
+## [12.2.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.1.6...v12.2.0) (2022-03-28)
+
+### [12.1.6](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.1.5...v12.1.6) (2022-03-26)
+
+
+### Bug fixes
+
+* add borderRadius to Autofill and make text black ([8532701](https://github.com/hopetambala/puente-reactnative-collect/commit/85327017907f6f09a29b892ffe18cb5d476dc609))
+* autofill space ([6995b62](https://github.com/hopetambala/puente-reactnative-collect/commit/6995b62929c5bab692a3559e7035dd4787d83921))
+
+
+### New Features
+
+* add cache populating when user exists ([d149216](https://github.com/hopetambala/puente-reactnative-collect/commit/d1492166026b07658a5f2e870b6eea29a4613579))
+* initial setup to deactivate surveyData form ([2f7e7f8](https://github.com/hopetambala/puente-reactnative-collect/commit/2f7e7f8440cf1bc01aedc7827018f7d873493379))
+* **puente-forms:** add disabled inputs for sup forms ([cedad83](https://github.com/hopetambala/puente-reactnative-collect/commit/cedad83b5d7477063fd6b3513c18e491fd8c5b81))
+
+### [12.1.5](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.1.4...v12.1.5) (2022-02-12)
+
+### [12.1.4](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.1.3...v12.1.4) (2022-02-12)
+
+
+### Bug fixes
+
+* limit for number of forms submitted and autopopulate ([e34aefe](https://github.com/hopetambala/puente-reactnative-collect/commit/e34aefe1eddd5d8db4cc325fec95a3d56c6ee7b4))
+
+### [12.1.3](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.1.2...v12.1.3) (2022-01-30)
+
+
+### Bug fixes
+
+* importing from wrong place :tired_face: ([19b8898](https://github.com/hopetambala/puente-reactnative-collect/commit/19b8898916aac9a0ef06b61cf7bb182fb4a6538d))
+
+### [12.1.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.1.0...v12.1.1) (2022-01-29)
+
+
+### New Features
+
+* add ability to store users credentials automatically to speed up entering into app ([a5e610e](https://github.com/hopetambala/puente-reactnative-collect/commit/a5e610e8ef947d0c235415e70b50a9b7694b1254))
+
+
+### Bug fixes
+
+* firstname and user properties being stored ([dc761b1](https://github.com/hopetambala/puente-reactnative-collect/commit/dc761b1436306262141645505e765b80b5285e4d))
+* offline data querying ([487de98](https://github.com/hopetambala/puente-reactnative-collect/commit/487de981b74fd4220851418f5818c0440fb98a3a))
+* offline data search ([ffa8cd9](https://github.com/hopetambala/puente-reactnative-collect/commit/ffa8cd965380e4b22820fa5ef5837a532af01ca8))
+
 ## [12.1.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.0.0...v12.1.0) (2022-01-19)
 
 

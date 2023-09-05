@@ -1,14 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const storeData = async (value, storageName) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(storageName, jsonValue);
-    return;
+    return value;
   } catch (e) {
     // saving error
     console.log(e); //eslint-disable-line
-
+    return e;
   }
 };
 
@@ -41,7 +41,4 @@ const getAllData = async () => {
   }
 };
 
-export {
-  deleteData, getAllData,
-  getData, storeData
-};
+export { deleteData, getAllData, getData, storeData };

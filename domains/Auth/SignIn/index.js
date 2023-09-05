@@ -1,10 +1,15 @@
 /* eslint no-param-reassign: ["error",
 { "props": true, "ignorePropertyModificationsFor": ["formikProps"] }] */
-import { Formik } from 'formik';
-import React, {
-  useEffect,
-  useState
-} from 'react';
+import BlackLogo from "@app/assets/graphics/static/Logo-Black.svg";
+import FormInput from "@impacto-design-system/Extensions/FormikFields/FormInput";
+import LanguagePicker from "@impacto-design-system/Extensions/LanguagePicker";
+import TermsModal from "@impacto-design-system/Extensions/TermsModal";
+import { deleteData, getData } from "@modules/async-storage";
+import I18n from "@modules/i18n";
+import checkOnlineStatus from "@modules/offline";
+import { theme } from "@modules/theme";
+import { Formik } from "formik";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -14,120 +19,66 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  View
-} from 'react-native';
-import {
-  Button, Checkbox, Text
-} from 'react-native-paper';
-import * as yup from 'yup';
+  View,
+} from "react-native";
+import { Button, Checkbox, Text } from "react-native-paper";
+import * as yup from "yup";
 
-import BlackLogo from '../../../assets/graphics/static/Logo-Black.svg';
-import FormInput from '../../../components/FormikFields/FormInput';
-import LanguagePicker from '../../../components/LanguagePicker';
-import registerForPushNotificationsAsync from '../../../components/PushNotification';
-import TermsModal from '../../../components/TermsModal';
-import { deleteData, getData, storeData } from '../../../modules/async-storage';
-import { populateCache } from '../../../modules/cached-resources';
-import I18n from '../../../modules/i18n';
-import checkOnlineStatus from '../../../modules/offline';
-import { theme } from '../../../modules/theme';
-import { retrieveSignInFunction } from '../../../services/parse/auth';
-import CredentialsModal from './CredentialsModal';
-import ForgotPassword from './ForgotPassword';
+import { UserContext } from "../../../context/auth.context";
+import ForgotPassword from "./ForgotPassword";
 
 const validationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .label(I18n.t('signIn.user'))
-    .required(),
+  username: yup.string().label(I18n.t("signIn.user")).required(),
   password: yup
     .string()
-    .label(I18n.t('signIn.password'))
+    .label(I18n.t("signIn.password"))
     .required()
-    .min(4, 'Seems a bit short...')
+    .min(4, "Seems a bit short..."),
 });
 
 const SignIn = ({ navigation }) => {
   const [checked, setChecked] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [user, setUser] = useState(null);
-  const [language, setLanguage] = useState('');
+  const [language, setLanguage] = useState("");
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   const [forgotPassword, setForgotPassword] = useState(false);
-
-  const load = false;
-
-  useEffect(() => {
-    getData('currentUser').then((currentUser) => {
-      setUser(currentUser);
-      if (currentUser?.credentials?.store === 'Yes') {
-        setModalVisible(true);
-      }
-    });
-  }, [load]);
+  const { onlineLogin, offlineLogin, isLoading, error } =
+    useContext(UserContext);
 
   useEffect(() => {
     async function checkLanguage() {
-      const currentLocale = await getData('locale');
+      const currentLocale = await getData("locale");
 
-      if (currentLocale !== 'en' && currentLocale !== null && currentLocale !== undefined) {
+      if (
+        currentLocale !== "en" &&
+        currentLocale !== null &&
+        currentLocale !== undefined
+      ) {
         handleLanguage(currentLocale);
       }
     }
     checkLanguage();
   }, []);
 
-  const handleFailedAttempt = () => {
+  const handleFailedAttempt = (err) => {
+    const translatedError =
+      I18n.t(error) || err || error || I18n.t("global.pleaseTryAgain");
+
     Alert.alert(
-      I18n.t('signIn.unableLogin'),
-      I18n.t('signIn.usernamePasswordIncorrect'), [
-        { text: 'OK' }
-      ],
+      I18n.t("signIn.unableLogin"),
+      translatedError,
+      [{ text: "OK" }],
       { cancelable: true }
     );
   };
 
   const handleSignUp = () => {
-    navigation.navigate('Sign Up');
+    navigation.navigate("Sign Up");
   };
 
   const handleSignIn = async (values, callback) => {
     if (callback) callback();
     Keyboard.dismiss();
-    navigation.navigate('Root', values);
-  };
-
-  const handleSaveCredentials = (currentUser, values) => {
-    Alert.alert(
-      I18n.t('signIn.credentials'),
-      I18n.t('signIn.saveLoginCreds'),
-      [
-        {
-          text: I18n.t('global.yes'),
-          onPress: () => {
-            const usr = currentUser;
-            const credentials = values;
-            usr.set('credentials', {
-              ...credentials,
-              store: 'Yes'
-            });
-            storeData(usr, 'currentUser');
-            navigation.navigate('StorePincode');
-          }
-        },
-        {
-          text: I18n.t('global.no'),
-          style: 'cancel',
-          onPress: () => {
-            handleSignIn(values);
-          }
-        },
-      ],
-      { cancelable: false }
-      // clicking out side of alert will not cancel
-    );
+    navigation.navigate("Root", values);
   };
 
   const handleLanguage = (lang) => {
@@ -144,95 +95,48 @@ const SignIn = ({ navigation }) => {
   };
 
   const deleteCreds = () => {
-    deleteData('currentUser');
+    deleteData("currentUser");
   };
 
-  const storeUserInformation = async (currentUser, userCreds) => {
-    // store username and password
-    const usr = currentUser;
-    if (userCreds) {
-      usr.set('credentials', {
-        ...userCreds,
-        store: 'No'
-      });
-      storeData(usr, 'currentUser');
-    }
-    // send push to update app if necessary and retrieve push token
-    const expoToken = await registerForPushNotificationsAsync();
-    populateCache(usr, expoToken);
-  };
+  const signin = async (enteredValues, actions) => {
+    const connected = await checkOnlineStatus();
 
-  const signInAndStore = (connected, values, actions) => {
-    setLoading(true);
-    if (connected) {
-      // stores credentials for offline sign in, but does not offer passwordless entry
-      retrieveSignInFunction(values.username, values.password)
-        .then((currentUser) => {
-          // always sets crenetials.store == 'No'
-          storeUserInformation(currentUser, values);
-          getData('currentUser').then(async (userCreds) => {
-            // credentials stored do not match those entered through sign-in, overwrite
-            // always runs
-            if (userCreds === null || userCreds.credentials.store === 'No' || values.username !== userCreds.credentials.username
-            || values.password !== userCreds.credentials.password) {
-              // ask user to store credentials
-              setLoading(false);
-              handleSaveCredentials(currentUser, values);
-            } else {
-              // store
-              setLoading(false);
-              storeUserInformation(currentUser);
-              // go to root
-              await handleSignIn(values, actions.resetForm);
-            }
-          }, () => {
-            setLoading(false);
-            handleSaveCredentials(currentUser, values);
-          });
-          // setLoading(false);
-        }, (err) => {
-          setLoading(false);
-          handleFailedAttempt(err);
-        });
-    } else {
-      // offline
-      getData('currentUser').then(async (userCreds) => {
-        // username and password entered (or saved in creds) match the saved cred
-        if (values.username === userCreds.credentials.username
-          && values.password === userCreds.credentials.password) {
-          // need some pincode verification
-          await handleSignIn(values, actions.resetForm);
-          setLoading(false);
-        } else {
-          // incorrect usernmae/password offline
-          handleFailedAttempt();
-          setLoading(false);
+    if (connected === true) {
+      return onlineLogin(enteredValues).then((status) => {
+        if (status) {
+          return handleSignIn(enteredValues, actions.resetForm).catch((err) =>
+            handleFailedAttempt(err)
+          );
         }
+        return handleFailedAttempt();
       });
     }
+    const offlineStatus = offlineLogin(enteredValues);
+    if (offlineStatus === false)
+      return handleFailedAttempt(
+        "Unable to login offline, please check your credentials"
+      );
+    return handleSignIn(enteredValues, actions.resetForm);
   };
 
   return (
-
     <KeyboardAvoidingView
       enabled
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ backgroundColor: theme.colors.accent, flex: 1 }}
     >
       {!forgotPassword && (
         <SafeAreaView style={{ flex: 9 }}>
           <ScrollView keyboardShouldPersistTaps="always">
-            <LanguagePicker language={language} onChangeLanguage={handleLanguage} />
+            <LanguagePicker
+              language={language}
+              onChangeLanguage={handleLanguage}
+            />
             <Formik
-              initialValues={{ username: '', password: '' }}
+              initialValues={{ username: "", password: "" }}
               onSubmit={async (values, actions) => {
-                setLoading(true);
-                await checkOnlineStatus().then((connected) => {
-                  signInAndStore(connected, values, actions);
-                });
-                setTimeout(() => {
-                  setLoading(false);
-                }, 3000);
+                await signin(values, actions);
+                setTimeout(() => {}, 3000);
               }}
               validationSchema={validationSchema}
               validateOnBlur={false}
@@ -244,112 +148,121 @@ const SignIn = ({ navigation }) => {
                     <BlackLogo height={130} />
                   </View>
                   <FormInput
-                    label={I18n.t('signIn.username')}
+                    label={I18n.t("signIn.username")}
                     formikProps={formikProps}
                     formikKey="username"
                     placeholder="johndoe@example.com"
                     value={formikProps.values.username}
                   />
                   <FormInput
-                    label={I18n.t('signIn.password')}
+                    label={I18n.t("signIn.password")}
                     formikProps={formikProps}
                     formikKey="password"
-                    placeholder={I18n.t('signIn.password')}
+                    placeholder={I18n.t("signIn.password")}
                     secureTextEntry={!checked}
                     value={formikProps.values.password}
                   />
 
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flexDirection: "row" }}>
                     <View style={styles.container}>
                       <View style={styles.checkbox}>
                         <Checkbox
                           disabled={false}
-                          // theme={theme}
                           color={theme.colors.primary}
-                          status={checked ? 'checked' : 'unchecked'}
+                          status={checked ? "checked" : "unchecked"}
                           onPress={() => {
                             setChecked(!checked);
                           }}
                         />
                       </View>
-                      <Text style={styles.passwordText}>{I18n.t('signIn.showPassword')}</Text>
+                      <Text style={styles.passwordText}>
+                        {I18n.t("signIn.showPassword")}
+                      </Text>
                     </View>
                     <Button style={{ flex: 1 }} onPress={handleForgotPassword}>
-                      {I18n.t('signIn.forgotPassword.label')}
+                      {I18n.t("signIn.forgotPassword.label")}
                     </Button>
                   </View>
-                  {loading ? (
+                  {isLoading ? (
                     <ActivityIndicator />
                   ) : (
-                    <Button mode="contained" theme={theme} style={styles.submitButton} onPress={formikProps.handleSubmit}>{I18n.t('signIn.login')}</Button>
+                    <Button
+                      mode="contained"
+                      theme={theme}
+                      style={styles.submitButton}
+                      onPress={formikProps.handleSubmit}
+                    >
+                      {I18n.t("signIn.login")}
+                    </Button>
                   )}
-                  <CredentialsModal
-                    modalVisible={modalVisible}
-                    formikProps={formikProps}
-                    user={user}
-                    setModalVisible={setModalVisible}
-                    navigation={navigation}
-                  />
-
                 </View>
               )}
             </Formik>
-            <Button onPress={deleteCreds}>{I18n.t('signIn.deleteCreds')}</Button>
+            <Button onPress={deleteCreds}>
+              {I18n.t("signIn.deleteCreds")}
+            </Button>
           </ScrollView>
 
           <TermsModal visible={visible} setVisible={setVisible} />
         </SafeAreaView>
       )}
-      {
-        forgotPassword && (
-          <ForgotPassword
-            navigation={navigation}
-            forgotPassword={forgotPassword}
-            setForgotPassword={setForgotPassword}
-          />
-        )
-      }
+      {forgotPassword && (
+        <ForgotPassword
+          navigation={navigation}
+          forgotPassword={forgotPassword}
+          setForgotPassword={setForgotPassword}
+        />
+      )}
 
-      {
-        !forgotPassword && (
-          <View style={styles.footer}>
-            <View style={styles.termsContainer}>
-              <Text style={styles.accountText}>{I18n.t('signIn.noAccount')}</Text>
-              <Button mode="text" theme={theme} color="#3E81FD" onPress={handleSignUp} labelStyle={{ marginLeft: 5 }}>
-                {I18n.t('signIn.signUpLink')}
-              </Button>
-            </View>
-            <View style={styles.termsContainer}>
-              <Text style={styles.puenteText}>{I18n.t('signIn.puente2020')}</Text>
-              <Button mode="text" theme={theme} onPress={handleTermsModal} labelStyle={{ marginLeft: 5 }}>{I18n.t('signIn.termsConditions')}</Button>
-            </View>
+      {!forgotPassword && (
+        <View style={styles.footer}>
+          <View style={styles.termsContainer}>
+            <Text style={styles.accountText}>{I18n.t("signIn.noAccount")}</Text>
+            <Button
+              mode="text"
+              theme={theme}
+              color="#3E81FD"
+              onPress={handleSignUp}
+              labelStyle={{ marginLeft: 5 }}
+            >
+              {I18n.t("signIn.signUpLink")}
+            </Button>
           </View>
-        )
-      }
-
+          <View style={styles.termsContainer}>
+            <Text style={styles.puenteText}>{I18n.t("signIn.puente2020")}</Text>
+            <Button
+              mode="text"
+              theme={theme}
+              onPress={handleTermsModal}
+              labelStyle={{ marginLeft: 5 }}
+            >
+              {I18n.t("signIn.termsConditions")}
+            </Button>
+          </View>
+        </View>
+      )}
     </KeyboardAvoidingView>
-
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
-    marginLeft: 15
+    marginLeft: 15,
   },
   passwordText: {
     flex: 7,
     fontSize: 15,
     marginLeft: 10,
-    marginTop: 'auto',
-    marginBottom: 'auto'
+    marginTop: "auto",
+    marginBottom: "auto",
   },
   checkbox: {
     flex: 2,
     borderRadius: 5,
     // marginLeft: 0,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   submitButton: {
     marginLeft: 20,
@@ -358,31 +271,29 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   footer: {
-    flex: 1
+    flex: 1,
   },
   termsContainer: {
-    flexDirection: 'row',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    flexDirection: "row",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   puenteText: {
     fontSize: 15,
-    marginTop: 'auto',
-    marginBottom: 'auto'
-
+    marginTop: "auto",
+    marginBottom: "auto",
   },
   accountText: {
     fontSize: 18,
-    marginTop: 'auto',
-    marginBottom: 'auto'
+    marginTop: "auto",
+    marginBottom: "auto",
   },
   logoContainer: {
     marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 40,
-  }
-
+  },
 });
 
 export default SignIn;

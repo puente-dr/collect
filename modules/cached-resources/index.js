@@ -1,37 +1,33 @@
-import populateCache from './populate-cache';
+import populateCache from "./populate-cache";
 import {
   postAssetForm,
   postHousehold,
-  postHouseholdWithRelation,
   postIdentificationForm,
   postSupplementaryAssetForm,
   postSupplementaryForm,
-} from './Post/post';
+} from "./Post/post";
 import {
   assetDataQuery,
   assetFormsQuery,
   cacheAutofillData,
-  cacheResidentData,
   cacheResidentDataMulti,
   customFormsQuery,
   getTasksAsync,
   residentQuery,
-} from './read';
+} from "./read";
 
 export {
   assetDataQuery,
   assetFormsQuery,
   cacheAutofillData,
-  cacheResidentData,
   cacheResidentDataMulti,
   customFormsQuery,
   getTasksAsync,
   populateCache,
   postAssetForm,
   postHousehold,
-  postHouseholdWithRelation,
   postIdentificationForm,
   postSupplementaryAssetForm,
   postSupplementaryForm,
-  residentQuery
+  residentQuery,
 };
