@@ -23,5 +23,12 @@ app.generated.json
 #
 reactenv/
 scripts/update-version/app.secrets.json
+
+# Stuff for release builds
+# (e.g. for EAS)
 environment.js
-eas.json
+app.json
+
+android/ 
+# ios/
+

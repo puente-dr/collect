@@ -110,22 +110,31 @@ const Forms = (props) => {
             </Text>
             <ScrollView horizontal>
               {pinnedForms &&
-                pinnedForms.map((form) => (
-                  <Card
-                    key={form.objectId ?? form.tag}
-                    style={layout.cardSmallStyle}
-                    onPress={() => {
-                      if (!form.tag) return navigateToCustomForm(form);
-                      return navigateToNewRecord(form.tag);
-                    }}
-                  >
-                    <View style={styles.cardContainer}>
-                      <View style={styles.textContainer}>
-                        <Text style={styles.text}>{form.name}</Text>
+                pinnedForms.map((form) => {
+                  const {
+                    objectId,
+                    tag,
+                    name,
+                    customForm: isCustomForm,
+                  } = form;
+                  const formName = isCustomForm ? name : I18n.t(name);
+                  return (
+                    <Card
+                      key={objectId ?? tag}
+                      style={layout.cardSmallStyle}
+                      onPress={() => {
+                        if (!form.tag) return navigateToCustomForm(form);
+                        return navigateToNewRecord(tag);
+                      }}
+                    >
+                      <View style={styles.cardContainer}>
+                        <View style={styles.textContainer}>
+                          <Text style={styles.text}>{formName}</Text>
+                        </View>
                       </View>
-                    </View>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
               {pinnedForms.length < 1 && (
                 <View style={layout.screenRow}>
                   <Card>

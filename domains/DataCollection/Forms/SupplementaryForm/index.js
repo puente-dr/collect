@@ -1,5 +1,6 @@
 // Make this render but switch between forms
 import surveyingUserFailsafe from "@app/domains/DataCollection/Forms/utils";
+import { AlertContext } from "@context/alert.context";
 import PopupError from "@impacto-design-system/Base/PopupError";
 import ErrorPicker from "@impacto-design-system/Extensions/FormikFields/ErrorPicker";
 import PaperInputPicker from "@impacto-design-system/Extensions/FormikFields/PaperInputPicker";
@@ -10,7 +11,7 @@ import I18n from "@modules/i18n";
 import { layout, theme } from "@modules/theme";
 import { isEmpty } from "@modules/utils";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Platform, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 
@@ -38,6 +39,7 @@ const SupplementaryForm = ({
   const [submitting, setSubmitting] = useState(false);
   const [loopsAdded, setLoopsAdded] = useState(0);
   const [submissionError, setSubmissionError] = useState(false);
+  const { alert } = useContext(AlertContext);
 
   const toRoot = () => {
     navigation.navigate("Root");
@@ -124,17 +126,16 @@ const SupplementaryForm = ({
           }, 1000);
         };
 
-        postSupplementaryForm(postParams).then(
-          () => {
-            submitAction();
-          },
-          (error) => {
-            console.log(error); // eslint-disable-line
-            // perhaps an alert to let the user know there was an error
-            setSubmitting(false);
-            setSubmissionError(true);
-          }
-        );
+        try {
+          await postSupplementaryForm(postParams);
+          alert(` ${I18n.t("forms.successfullySubmitted")}`);
+          submitAction();
+        } catch (e) {
+          console.log(error); // eslint-disable-line
+          // perhaps an alert to let the user know there was an error
+          setSubmitting(false);
+          setSubmissionError(true);
+        }
       }}
       validationSchema={validationSchema}
       // only validate on submit, errors persist after fixing

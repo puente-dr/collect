@@ -2,6 +2,66 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.7.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.6.1...v12.7.1) (2025-12-27)
+
+
+### Code Refactors
+
+* remove aws logger ([6926d66](https://github.com/hopetambala/puente-reactnative-collect/commit/6926d6672527cdc359a4a98c5edb2160f6fcaf98))
+
+
+### Bug fixes
+
+* update expo ([90fc714](https://github.com/hopetambala/puente-reactnative-collect/commit/90fc71432684e3b1f93eb2a50b44f18da90e51bc))
+* update to create abort error ([b31ca14](https://github.com/hopetambala/puente-reactnative-collect/commit/b31ca149e31e17db6e68ae9961414ed1d4830b2b))
+
+## [12.7.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.6.1...v12.7.0) (2025-07-13)
+
+
+### Code Refactors
+
+* remove aws logger ([6926d66](https://github.com/hopetambala/puente-reactnative-collect/commit/6926d6672527cdc359a4a98c5edb2160f6fcaf98))
+
+
+### Bug fixes
+
+* update expo ([90fc714](https://github.com/hopetambala/puente-reactnative-collect/commit/90fc71432684e3b1f93eb2a50b44f18da90e51bc))
+* update to create abort error ([b31ca14](https://github.com/hopetambala/puente-reactnative-collect/commit/b31ca149e31e17db6e68ae9961414ed1d4830b2b))
+
+### [12.6.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.5.4...v12.6.1) (2023-11-02)
+
+### Bug fixes
+
+* Custom forms not clickable ([a8cf460](https://github.com/hopetambala/puente-reactnative-collect/commit/a8cf4600e3eb1081a16963cbb3334a7d4cfbd38f))
+* Target new lowest build for Android (API Level 33) ([f61793a](https://github.com/hopetambala/puente-reactnative-collect/commit/f61793a127d6fa48332614804a214c8b4d501b17))
+
+## [12.6.0](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.5.4...v12.6.0) (2023-09-10)
+
+
+### Bug fixes
+
+* Automatically tie resident to form upon submitting demographic and clicking next suggested form ([61eebc0](https://github.com/hopetambala/puente-reactnative-collect/commit/61eebc03bc2ca8ffb1507a81b47b00b18c6ba915))
+* Pinned forms of Puente forms not staying pinned ([f87e809](https://github.com/hopetambala/puente-reactnative-collect/commit/f87e8090c53edecef06231551cd413fa75c2108c))
+* Translation name of of forms for "Suggested next forms" view ([49240bf](https://github.com/hopetambala/puente-reactnative-collect/commit/49240bf686d1a3e7ed483c415e86ed55ab1cdb20))
+
+
+### New Features
+
+* Add toast when user completes supplementary form ([9226a34](https://github.com/hopetambala/puente-reactnative-collect/commit/9226a34e247320c32cbeb0851b882e24f4b1b419))
+
+### [12.5.2](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.2...v12.5.2) (2023-06-06)
+
+
+### New Features
+
+* HUGE REFACTOR of imports to consolidate for design system ([c8d9777](https://github.com/hopetambala/puente-reactnative-collect/commit/c8d9777e35aae23277ef90aab5803469965a1ea4))
+
+
+### Bug fixes
+
+* native-base number ([d7c0fe8](https://github.com/hopetambala/puente-reactnative-collect/commit/d7c0fe8225d85d2a7d81ab4546712c62d12ccbf8))
+* remove automatic login ([b8eb1ea](https://github.com/hopetambala/puente-reactnative-collect/commit/b8eb1ea728ab06beccec99573d2d4280e675efe5))
+
 ### [12.5.1](https://github.com/hopetambala/puente-reactnative-collect/compare/v12.4.2...v12.5.1) (2023-03-08)
 
 
